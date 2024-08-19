@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "react-study-app-fbd9f-2949b",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
