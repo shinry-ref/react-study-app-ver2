@@ -1,12 +1,14 @@
-import { Box, Button, Center, Flex, Heading, Spinner, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Wrap } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, Heading, Spinner, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure, Wrap } from '@chakra-ui/react'
 import './App.css'
 import { useEffect, useState } from 'react';
 import { Record } from './domain/record';
 import { getAllStudyRecords } from './utils/supabaseFunction';
+import { SubmitModal } from './organisms/modal/SubmitModal';
 
 function App() {
   const [records, setRecords] = useState<Record[]>();
   const [loading, setLoading] = useState<boolean>(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   // useEffect(() => {
   //   setRecords([
   //     new Record("1", "学習1", "3"),
@@ -35,6 +37,8 @@ function App() {
       ) : (
       <Flex direction="column" alignItems="center" p={4}>
         <Heading mb={4}>学習記録アプリ</Heading>
+        <Button colorScheme='teal' onClick={onOpen}>登録</Button>
+        <SubmitModal isOpen={isOpen} onClose={onClose} />
         <TableContainer>
           <Table variant="simple">
             <Thead>
