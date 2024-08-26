@@ -1,5 +1,5 @@
 import { FC, memo } from "react";
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack } from "@chakra-ui/react";
+import { Button, ButtonGroup, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack } from "@chakra-ui/react";
 
 type Props = {
   isOpen: boolean;
@@ -18,14 +18,20 @@ export const SubmitModal:FC<Props> = memo((props) => {
       <ModalBody mx={4}>
         <Stack spacing={4}>
           <FormControl>
-            <FormLabel>名前</FormLabel>
+            <FormLabel>学習記録</FormLabel>
+            <Input/>
+          </FormControl>
+          <FormControl>
+            <FormLabel>学習時間</FormLabel>
             <Input/>
           </FormControl>
         </Stack>
       </ModalBody>
       <ModalFooter>
-        <Button>登録</Button>
-        <Button>キャンセル</Button>
+        <ButtonGroup variant='outline' spacing='6'>
+          <Button colorScheme='teal'>登録</Button>
+          <Button>キャンセル</Button>
+        </ButtonGroup>
       </ModalFooter>
     </ModalContent>
   </Modal>
