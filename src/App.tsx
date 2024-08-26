@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading, Spinner, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure, Wrap } from '@chakra-ui/react'
+import { Button, Center, Flex, Heading, Spinner, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react'
 import './App.css'
 import { useEffect, useState } from 'react';
 import { Record } from './domain/record';
@@ -38,14 +38,15 @@ function App() {
       <Flex direction="column" alignItems="center" p={4}>
         <Heading mb={4}>学習記録アプリ</Heading>
         <Button colorScheme='teal' onClick={onOpen}>登録</Button>
-        <SubmitModal isOpen={isOpen} onClose={onClose} />
+        <SubmitModal isOpen={isOpen} onClose={onClose} setRecords={setRecords} />
         <TableContainer>
           <Table variant="simple">
             <Thead>
               <Tr>
                 <Th>id</Th>
                 <Th>タイトル</Th>
-                <Th isNumeric>時間</Th>
+                <Th>時間</Th>
+                <Th>作成日時</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -54,6 +55,7 @@ function App() {
                   <Td>{record.id}</Td>
                   <Td>{record.title}</Td>
                   <Td isNumeric>{record.time}</Td>
+                  <Td>{record.created_at}</Td>
                 </Tr>
               ))}
             </Tbody>

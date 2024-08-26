@@ -8,21 +8,21 @@ export const getAllStudyRecords = async (): Promise<Record[]> => {
   }
 
   const recordsData = response.data.map((record) => {
-    return new Record(record.id, record.title, record.time)
+    return Record.newRecord(record.id, record.title, record.time, record.created_at)
   }) 
 
   return recordsData;
 }
 
-export const addStudyRecord = async (detail, time) => {
+export const addStudyRecord = async (title: string, time: string) => {
   await supabase
-  .from('study-record')
-  .insert({ title: detail, time: time  })
+  .from('study-record-ver2')
+  .insert({ title: title, time: time  })
 }
 
 export const deleteStudyRecord = async (id) => {
   await supabase
-  .from('study-record')
+  .from('study-record-ver2')
   .delete()
   .eq('id', id)
 }
