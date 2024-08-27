@@ -2,7 +2,7 @@ import { Button, Center, Flex, Heading, Spinner, Table, TableContainer, Tbody, T
 import './App.css'
 import { useEffect, useState } from 'react';
 import { Record } from './domain/record';
-import { getAllStudyRecords } from './utils/supabaseFunction';
+import { deleteStudyRecord, getAllStudyRecords } from './utils/supabaseFunction';
 import { SubmitModal } from './organisms/modal/SubmitModal';
 
 function App() {
@@ -21,12 +21,18 @@ function App() {
     const getAllRecords = async () =>{
       setLoading(true);
       const newRecords = await getAllStudyRecords();
-      console.log(newRecords);
       setRecords(newRecords);
       setLoading(false);
     }
     getAllRecords();
   }, []);
+
+  const handleDelete = async (id: number) => {
+
+    await deleteStudyRecord(id);
+    const newRecords = await getAllStudyRecords();
+    setRecords(newRecords);
+  }
 
   return (
     <>
@@ -47,6 +53,7 @@ function App() {
                 <Th>タイトル</Th>
                 <Th>時間</Th>
                 <Th>作成日時</Th>
+                <Th>削除</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -56,6 +63,7 @@ function App() {
                   <Td>{record.title}</Td>
                   <Td isNumeric>{record.time}</Td>
                   <Td>{record.created_at}</Td>
+                  <Td><Button colorScheme='pink' onClick={() => handleDelete(record.id)}>削除</Button></Td>
                 </Tr>
               ))}
             </Tbody>

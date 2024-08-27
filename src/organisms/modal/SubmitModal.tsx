@@ -17,13 +17,13 @@ type FormData = {
 
 export const SubmitModal:FC<Props> = memo((props) => {
   const { isOpen, onClose, setRecords } = props;
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
   const [title, setTitle] = useState<string>("");
   const [time, setTime] = useState<string>("");
 
-  const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
-  const onChangeTime = (event:  React.ChangeEvent<HTMLInputElement>) => setTime(event.target.value);
+  // const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
+  // const onChangeTime = (event:  React.ChangeEvent<HTMLInputElement>) => setTime(event.target.value);
 
   const onSubmit = async () => {
 
@@ -33,6 +33,7 @@ export const SubmitModal:FC<Props> = memo((props) => {
     const newRecords = await getAllStudyRecords();
     setRecords(newRecords);
 
+    reset();
     setTitle('');
     setTime('');
     onClose();
@@ -51,8 +52,10 @@ export const SubmitModal:FC<Props> = memo((props) => {
             <Input 
               {...register("title", {
                 required: "内容の入力は必須です",
-                onChange: onChangeTitle
-            })} />
+                onChange: (event) => {
+                  setTitle(event.target.value) 
+                }
+              })} />
             <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.time}>
@@ -61,7 +64,9 @@ export const SubmitModal:FC<Props> = memo((props) => {
             type="number"
             {...register("time", {
               required: "時間の入力は必須です",
-              onChange: onChangeTime,
+              onChange: (event) => {
+                setTime(event.target.value) 
+              },
               min: {
                 value: 0,
                 message: "時間は0以上である必要があります",

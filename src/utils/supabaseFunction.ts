@@ -20,7 +20,7 @@ export const addStudyRecord = async (title: string, time: string) => {
   .insert({ title: title, time: time  })
 }
 
-export const deleteStudyRecord = async (id) => {
+export const deleteStudyRecord = async (id: number) => {
   await supabase
   .from('study-record-ver2')
   .delete()
