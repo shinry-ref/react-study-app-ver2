@@ -71,7 +71,7 @@ function App() {
                   <Td>{record.title}</Td>
                   <Td isNumeric>{record.time}</Td>
                   <Td>{record.created_at}</Td>
-                  <Td><Button colorScheme='pink' onClick={() => handleDelete(record.id)}>削除</Button></Td>
+                  <Td><Button colorScheme='pink' onClick={() => handleDelete(record.id)} data-testid="delete">削除</Button></Td>
                 </Tr>
               ))}
             </Tbody>

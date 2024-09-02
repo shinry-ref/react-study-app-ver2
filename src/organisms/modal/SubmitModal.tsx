@@ -43,7 +43,7 @@ export const SubmitModal:FC<Props> = memo((props) => {
     <Modal isOpen={isOpen} onClose={onClose} autoFocus={false} motionPreset="slideInBottom">
     <ModalOverlay />
     <ModalContent pb={2}>
-      <ModalHeader>ユーザー詳細</ModalHeader>
+      <ModalHeader data-testid="new-title">新規登録</ModalHeader>
       <ModalCloseButton />
       <ModalBody mx={4}>
         <Stack spacing={4}>
@@ -78,7 +78,7 @@ export const SubmitModal:FC<Props> = memo((props) => {
       </ModalBody>
       <ModalFooter>
         <ButtonGroup variant='outline' spacing='6'>
-          <Button type={"submit"} colorScheme='teal' onClick={handleSubmit(onSubmit)}>登録</Button>
+          <Button type={"submit"} colorScheme='teal' onClick={handleSubmit(onSubmit)} data-testid="submit">登録</Button>
           <Button onClick={onClose}>キャンセル</Button>
         </ButtonGroup>
       </ModalFooter>
