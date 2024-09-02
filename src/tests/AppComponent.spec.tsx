@@ -2,15 +2,40 @@ import App from "../App";
 import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 
-describe("App Component", () => {
+describe("loading", () => {
   it("ローディング画面が表示されること", async () => {
-    // `loading`状態を`true`に設定してAppコンポーネントをレンダリング
     render(<App/>);
     
-    // `Spinner`が表示されるのを待つ
     const spinner = await screen.findByTestId("spinner");
     expect(spinner).toBeInTheDocument();
   });
+});
 
-  // 他のテストケースもここに追加できます
+describe("table", () => {
+  it("テーブルをみることができる(リスト)", async () => {
+    render(<App/>);
+    
+    const table = await screen.findByTestId("table");
+    expect(table).toBeInTheDocument();
+  });
+});
+
+describe("new record", () => {
+  it("新規登録ボタンがある", async () => {
+    render(<App/>);
+    
+    const table = await screen.findByTestId("new-button");
+    expect(table).toBeInTheDocument();
+    expect(table).toHaveTextContent('新規登録');
+  });
+});
+
+describe("new record", () => {
+  it("新規登録ボタンがある", async () => {
+    render(<App/>);
+    
+    const table = await screen.findByTestId("new-button");
+    expect(table).toBeInTheDocument();
+    expect(table).toHaveTextContent('新規登録');
+  });
 });

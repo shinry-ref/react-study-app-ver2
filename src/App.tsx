@@ -51,10 +51,10 @@ function App() {
       ) : (
       <Flex direction="column" alignItems="center" p={4}>
         <Heading mb={4} data-testid="title">学習記録アプリ</Heading>
-        <Button colorScheme='teal' onClick={onOpen}>登録</Button>
+        <Button colorScheme='teal' onClick={onOpen} data-testid="new-button">新規登録</Button>
         <SubmitModal isOpen={isOpen} onClose={onClose} setRecords={setRecords} />
         <TableContainer>
-          <Table variant="simple">
+          <Table variant="simple" data-testid="table">
             <Thead>
               <Tr>
                 <Th>id</Th>
