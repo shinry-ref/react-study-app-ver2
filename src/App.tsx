@@ -7,7 +7,7 @@ import { SubmitModal } from './organisms/modal/SubmitModal';
 
 function App() {
   const [records, setRecords] = useState<Record[]>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   // useEffect(() => {
   //   setRecords([
@@ -20,29 +20,37 @@ function App() {
   useEffect(() => {
     const getAllRecords = async () =>{
       setLoading(true);
-      const newRecords = await getAllStudyRecords();
-      setRecords(newRecords);
-      setLoading(false);
+      try {
+        const newRecords = await getAllStudyRecords();
+        setRecords(newRecords);
+      } catch (error){
+        console.error("Failed to fetch records:", error);
+      } finally {
+        setLoading(false);
+      }
     }
     getAllRecords();
   }, []);
 
   const handleDelete = async (id: number) => {
-
-    await deleteStudyRecord(id);
-    const newRecords = await getAllStudyRecords();
-    setRecords(newRecords);
+    try {
+      await deleteStudyRecord(id);
+      const newRecords = await getAllStudyRecords();
+      setRecords(newRecords);
+    } catch (error) {
+      console.error("Failed to delete record:", error);
+    }
   }
 
   return (
     <>
       { loading ? (
       <Center h="100vh">
-        <Spinner />
+        <Spinner data-testid="spinner" />
       </Center>
       ) : (
       <Flex direction="column" alignItems="center" p={4}>
-        <Heading mb={4}>学習記録アプリ</Heading>
+        <Heading mb={4} data-testid="title">学習記録アプリ</Heading>
         <Button colorScheme='teal' onClick={onOpen}>登録</Button>
         <SubmitModal isOpen={isOpen} onClose={onClose} setRecords={setRecords} />
         <TableContainer>
