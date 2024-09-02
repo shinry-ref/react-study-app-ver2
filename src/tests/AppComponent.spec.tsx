@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 
 // 例: Jestを使ったモック
-jest.mock('./utils/supabaseFunction', () => ({
+jest.mock('../utils/supabaseFunction', () => ({
   getAllStudyRecords: jest.fn(),
   deleteStudyRecord: jest.fn(),
 }));
