@@ -4,14 +4,13 @@ import { useEffect, useState } from 'react';
 import { Record } from './domain/record';
 import { deleteStudyRecord, getAllStudyRecords } from './utils/supabaseFunction';
 import { SubmitModal } from './organisms/modal/SubmitModal';
-import { EditModal } from './organisms/modal/EditModal';
 
 function App() {
   const [records, setRecords] = useState<Record[]>();
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedRecord, setSelectedRecord] = useState<Record | null>(null);
-  const sumbitModal = useDisclosure();
-  const editModal = useDisclosure();
+  const [modal, setModal] = useState<string>('');
+  const { isOpen, onOpen, onClose } = useDisclosure();
   // useEffect(() => {
   //   setRecords([
   //     new Record("1", "学習1", "3"),
@@ -45,9 +44,16 @@ function App() {
     }
   }
 
+  const handleCreateOpen = () => {
+    setSelectedRecord({id: 0, title: "", time: 0, created_at: ""});
+    setModal('new');
+    onOpen();
+  };
+
   const handleEditOpen = (record: Record) => {
     setSelectedRecord(record);
-    editModal.onOpen();
+    setModal('edit');
+    onOpen();
   };
 
   return (
@@ -59,8 +65,8 @@ function App() {
       ) : (
       <Flex direction="column" alignItems="center" p={4}>
         <Heading mb={4} data-testid="title">学習記録アプリ</Heading>
-        <Button colorScheme='teal' onClick={sumbitModal.onOpen} data-testid="new-button">新規登録</Button>
-        <SubmitModal isOpen={sumbitModal.isOpen} onClose={sumbitModal.onClose} setRecords={setRecords} />
+        <Button colorScheme='teal' onClick={() => handleCreateOpen()} data-testid="new-button">新規登録</Button>
+        <SubmitModal isOpen={isOpen} onClose={onClose} record={selectedRecord} setRecords={setRecords} modal={modal} />
         <TableContainer>
           <Table variant="simple" data-testid="table">
             <Thead>
@@ -89,7 +95,6 @@ function App() {
             </Tbody>
           </Table>
         </TableContainer>
-        <EditModal isOpen={editModal.isOpen} onClose={editModal.onClose} record={selectedRecord} setRecords={setRecords} />
       </Flex>
       )}
     </>

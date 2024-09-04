@@ -14,7 +14,7 @@ export const getAllStudyRecords = async (): Promise<Record[]> => {
   return recordsData;
 }
 
-export const addStudyRecord = async (title: string, time: string) => {
+export const addStudyRecord = async (title: string, time: number | undefined) => {
   await supabase
   .from('study-record-ver2')
   .insert({ title: title, time: time  })
@@ -24,5 +24,12 @@ export const deleteStudyRecord = async (id: number) => {
   await supabase
   .from('study-record-ver2')
   .delete()
+  .eq('id', id)
+}
+
+export const updateStudyRecord = async (id: number, title: string, time: number) => {
+  await supabase
+  .from('study-record-ver2')
+  .update({ title: title, time: time })
   .eq('id', id)
 }
