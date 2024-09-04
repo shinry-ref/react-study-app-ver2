@@ -1,10 +1,11 @@
 import App from "../App";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { addStudyRecord, deleteStudyRecord, getAllStudyRecords } from "../utils/supabaseFunction";
+import { addStudyRecord, deleteStudyRecord, getAllStudyRecords, updateStudyRecord } from "../utils/supabaseFunction";
 
 jest.mock('../utils/supabaseFunction', () => ({
   getAllStudyRecords: jest.fn(),
   addStudyRecord: jest.fn(),
+  updateStudyRecord: jest.fn(),
   deleteStudyRecord: jest.fn(),
 }));
 
@@ -103,6 +104,7 @@ describe("modal valid", () => {
     fireEvent.click(button);
 
     fireEvent.click(screen.getByTestId('submit'));
+    fireEvent.change(screen.getByLabelText('学習時間'), { target: { value: '' } });
 
     expect(await screen.findByText('時間の入力は必須です')).toBeInTheDocument();
 
@@ -137,6 +139,51 @@ describe("delete", () => {
 
     await waitFor(() => {
       expect(screen.queryByText('Test Title')).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe("edit modal title", () => {
+  it("モーダルのタイトルが記録編集であること", async () => {
+    render(<App/>);
+
+    const button = await screen.findByTestId("edit");
+    fireEvent.click(button);
+
+    const table = await screen.findByTestId("new-title");
+    expect(table).toHaveTextContent('記録編集');
+  });
+});
+
+describe("edit record", () => {
+  it("編集して登録すると更新されること", async () => {
+    (getAllStudyRecords as jest.Mock).mockResolvedValue([{ id: 1, title: 'Test Title', time: 10 }]);
+    render(<App/>);
+
+    const button = await screen.findByTestId("edit");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText('1')).toBeInTheDocument();
+      expect(screen.getByText('Test Title')).toBeInTheDocument();
+      expect(screen.getByText('10')).toBeInTheDocument();
+    });
+
+    fireEvent.change(screen.getByLabelText('学習記録'), { target: { value: 'Test Edit Title' } });
+    fireEvent.change(screen.getByLabelText('学習時間'), { target: { value: 9 } });
+
+    (getAllStudyRecords as jest.Mock).mockResolvedValue([{ id: 1, title: 'Test Edit Title', time: 9 }]);
+    fireEvent.click(screen.getByTestId('submit'));
+
+    await waitFor(() => {
+      expect(updateStudyRecord).toHaveBeenCalledWith( 1, 'Test Edit Title', "9");
+      expect(getAllStudyRecords).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('1')).toBeInTheDocument();
+      expect(screen.getByText('Test Edit Title')).toBeInTheDocument();
+      expect(screen.getByText('9')).toBeInTheDocument();
     });
   });
 });

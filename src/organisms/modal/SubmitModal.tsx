@@ -28,9 +28,6 @@ export const SubmitModal:FC<Props> = memo((props) => {
   // const onChangeTime = (event:  React.ChangeEvent<HTMLInputElement>) => setTime(event.target.value);
 
   const onSubmit = async (modal: string) => {
-    console.log(modal)
-    console.log(title)
-    console.log(time)
     // if (detail == "" || time == 0) return setErrorFlag(true);
 
     if( modal == 'new'){
