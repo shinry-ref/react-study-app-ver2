@@ -116,6 +116,8 @@ describe("modal valid", () => {
 });
 
 describe("delete", () => {
+  window.confirm = jest.fn(() => true);
+
   it("削除ができること", async () => {
     (getAllStudyRecords as jest.Mock).mockResolvedValue([{ id: 1, title: 'Test Title', time: '10', created_at: '2024-09-01' }]);
 
