@@ -47,6 +47,20 @@ export const SubmitModal:FC<Props> = memo((props) => {
     onClose();
   };
 
+  const handleClose = () => {
+    if (record) {
+      reset({
+        title: record.title,
+        time: record.time,
+      });
+      setTitle(record.title);
+      setTime(record.time);
+    } else {
+      reset();
+    }
+    onClose();
+  };
+
   useEffect(() => {
     if (record) {
       reset({
@@ -100,7 +114,7 @@ export const SubmitModal:FC<Props> = memo((props) => {
       <ModalFooter>
         <ButtonGroup variant='outline' spacing='6'>
           <Button type={"submit"} colorScheme='teal' onClick={handleSubmit(() => onSubmit(modal))} data-testid="submit">{ modal == 'new' ? '登録' : '保存' }</Button>
-          <Button onClick={onClose}>キャンセル</Button>
+          <Button onClick={handleClose}>キャンセル</Button>
         </ButtonGroup>
       </ModalFooter>
     </ModalContent>
