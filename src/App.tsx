@@ -35,12 +35,14 @@ function App() {
   }, []);
 
   const handleDelete = async (id: number) => {
-    try {
-      await deleteStudyRecord(id);
-      const newRecords = await getAllStudyRecords();
-      setRecords(newRecords);
-    } catch (error) {
-      console.error("Failed to delete record:", error);
+    if (window.confirm('本当に削除しますか？')) {
+      try {
+        await deleteStudyRecord(id);
+        const newRecords = await getAllStudyRecords();
+        setRecords(newRecords);
+      } catch (error) {
+        console.error("Failed to delete record:", error);
+      }
     }
   }
 
