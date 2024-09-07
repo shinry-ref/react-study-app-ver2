@@ -53,6 +53,8 @@ export const SubmitModal:FC<Props> = memo((props) => {
         title: record.title,
         time: record.time,
       });
+      setTitle(record.title);
+      setTime(record.time);
     }
   }, [reset, record]);
 
@@ -67,7 +69,7 @@ export const SubmitModal:FC<Props> = memo((props) => {
           <FormControl isInvalid={!!errors.title}>
             <FormLabel>学習記録</FormLabel>
             <Input 
-              defaultValue={title}
+              value={title}
               {...register("title", {
                 required: "内容の入力は必須です",
                 onChange: (event) => {
@@ -79,7 +81,7 @@ export const SubmitModal:FC<Props> = memo((props) => {
           <FormControl isInvalid={!!errors.time}>
             <FormLabel>学習時間</FormLabel>
             <Input
-            defaultValue={time}
+            value={time}
             type="number"
             {...register("time", {
               required: "時間の入力は必須です",
